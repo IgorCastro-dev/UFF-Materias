@@ -29,7 +29,7 @@ CREATE TABLE `secao_materias` (
 CREATE TABLE `conteudo_secao` (
     `conteudo_secao_id` INT PRIMARY KEY,
     `secao_materias_id` INT,
-    `conteudo_secao` TEXT,
+    `conteudo_da_secao` TEXT,
     FOREIGN KEY (secao_materias_id) REFERENCES secao_materias(secao_materias_id)
 );
 
