@@ -1,0 +1,12 @@
+version: '3'
+services:
+  db:
+    image: mysql:8.0
+    container_name: my-mysql-uffmateriais
+    environment:
+      MYSQL_ROOT_PASSWORD: S2gJZnH4ZL
+      MYSQL_DATABASE: uffmateriais
+      MYSQL_USER: uffmateriais
+      MYSQL_PASSWORD: S2gJZnH4ZL
+    ports:
+      - "3306:3306"
