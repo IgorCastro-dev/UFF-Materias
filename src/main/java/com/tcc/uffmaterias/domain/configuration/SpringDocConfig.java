@@ -1,2 +1,21 @@
-package com.tcc.uffmaterias.domain.configuration;public class SpringDocConfig {
+package com.tcc.uffmaterias.domain.configuration;
+
+import com.tcc.uffmaterias.domain.model.Materias;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class SpringDocConfig {
+
+    @Bean
+    public OpenAPI openAPI(){
+        return new OpenAPI()
+                .info(new Info()
+                        .title("UFF-Materias API")
+                        .version("V1")
+                        .description("Uma api de gerenciamento de conteúdo das matérias de SI da UFF")
+                );
+    }
 }
