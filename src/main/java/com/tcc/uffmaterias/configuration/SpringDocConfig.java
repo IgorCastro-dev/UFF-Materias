@@ -1,4 +1,4 @@
-package com.tcc.uffmaterias.domain.configuration;
+package com.tcc.uffmaterias.configuration;
 
 import com.tcc.uffmaterias.domain.model.Materias;
 import io.swagger.v3.oas.models.OpenAPI;

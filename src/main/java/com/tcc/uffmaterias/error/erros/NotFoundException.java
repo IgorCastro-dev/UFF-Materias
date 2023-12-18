@@ -1,4 +1,4 @@
-package com.tcc.uffmaterias.domain.error.erros;
+package com.tcc.uffmaterias.error.erros;
 
 public class NotFoundException extends RuntimeException{
     public NotFoundException(String message) {
