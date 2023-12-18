@@ -17,7 +17,15 @@ public class UsuarioService {
     }
 
     public void deletaUsuario(Long id){
-        usuarioRepository.findById(id).orElseThrow(()-> new NotFoundException("Usuário não encontrado"));
+        getUsuarios(id);
         usuarioRepository.deleteById(id);
+    }
+
+    public Usuarios buscaUsuario(Long id) {
+        return getUsuarios(id);
+    }
+
+    private Usuarios getUsuarios(Long id) {
+        return usuarioRepository.findById(id).orElseThrow(() -> new NotFoundException("Usuário não encontrado"));
     }
 }

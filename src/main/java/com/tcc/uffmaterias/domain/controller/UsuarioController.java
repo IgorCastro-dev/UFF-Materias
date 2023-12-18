@@ -30,6 +30,12 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioService.listarUsuarios());
     }
 
+    @Operation(summary = "Busca o usuário por id")
+    @GetMapping("/{usuario_id}")
+    public ResponseEntity<Usuarios> buscaUsuario(@PathVariable("usuario_id") Long id){
+        return ResponseEntity.ok(usuarioService.buscaUsuario(id));
+    }
+
     @Operation(summary = "Exclui usuário por id")
     @DeleteMapping("/{usuario_id}")
     public ResponseEntity<Void> deletarUsuario(@PathVariable("usuario_id") Long id){
