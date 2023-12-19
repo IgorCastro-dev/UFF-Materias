@@ -6,12 +6,16 @@ import lombok.Data;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
+import java.sql.Timestamp;
+import java.time.OffsetDateTime;
 import java.util.List;
 @Data
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ErroTemplate {
-    private String message;
+    private String title;
+    private String detail;
+    private OffsetDateTime timestamp;
     private HttpStatus httpStatus;
     private Integer httpStatusCode;
     private List<Field> fields;

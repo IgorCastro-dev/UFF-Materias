@@ -6,10 +6,8 @@ import lombok.Data;
 @Data
 public class UsuarioRequestDto {
 
-    @NotBlank
     private String nome;
 
-    @Email
     private String email;
 
     @NotBlank
