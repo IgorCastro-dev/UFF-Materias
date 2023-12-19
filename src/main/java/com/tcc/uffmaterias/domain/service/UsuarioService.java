@@ -48,6 +48,7 @@ public class UsuarioService {
         UsuarioTipo usuarioTipo = usuarioTipoRepository.findByNome(usuarioRequestDto.getUsuarioTipo())
                 .orElseThrow(()->new NotFoundException("Tipo de usuário não encontrado"));
         usuarios.setUsuarioTipo(usuarioTipo);
+        usuarioRepository.save(usuarios);
         return usuarios;
     }
 }
