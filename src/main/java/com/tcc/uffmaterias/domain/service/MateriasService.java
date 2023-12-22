@@ -36,6 +36,12 @@ public class MateriasService {
         return materias;
     }
 
+    @Transactional
+    public void deletaMateria(Long id){
+        getMaterias(id);
+        materiasRepository.deleteById(id);
+    }
+
     private Materias getMaterias(Long id) {
         return materiasRepository.findById(id).orElseThrow(
                 () -> new NotFoundException("Matéria não encontrada"));
