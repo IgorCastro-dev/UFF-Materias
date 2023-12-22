@@ -46,7 +46,7 @@ public class UsuarioController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @Operation(summary = "Exclui usuário por id")
+    @Operation(summary = "Atualiza usuário por id")
     @PutMapping("/{usuario_id}")
     public ResponseEntity<Usuarios> atualizarUsuario(@PathVariable("usuario_id") Long id,@Valid @RequestBody UsuarioRequestDto usuarioRequestDto){
         return ResponseEntity.ok(usuarioService.atualizarUsuario(id,usuarioRequestDto));

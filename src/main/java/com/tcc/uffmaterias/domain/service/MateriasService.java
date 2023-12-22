@@ -2,7 +2,10 @@ package com.tcc.uffmaterias.domain.service;
 
 import com.tcc.uffmaterias.domain.model.Materias;
 import com.tcc.uffmaterias.domain.repository.MateriasRepository;
+import com.tcc.uffmaterias.dto.request.MateriaRequestDto;
 import com.tcc.uffmaterias.error.erros.NotFoundException;
+import jakarta.transaction.Transactional;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,14 +17,27 @@ public class MateriasService {
     @Autowired
     private MateriasRepository materiasRepository;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     public List<Materias> listarMaterias(){
         return materiasRepository.findAll();
     }
 
-
     public Materias buscaMateria(Long id){
-        return materiasRepository.findById(id).orElseThrow(
-                ()-> new NotFoundException("Matéria não encontrada"));
+        return getMaterias(id);
     }
 
+    @Transactional
+    public Materias atualizarMateria(Long id, MateriaRequestDto materiaRequestDto) {
+        Materias materias = getMaterias(id);
+        modelMapper.map(materiaRequestDto,materias);
+        materiasRepository.save(materias);
+        return materias;
+    }
+
+    private Materias getMaterias(Long id) {
+        return materiasRepository.findById(id).orElseThrow(
+                () -> new NotFoundException("Matéria não encontrada"));
+    }
 }
