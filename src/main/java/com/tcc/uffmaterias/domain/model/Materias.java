@@ -17,6 +17,7 @@ public class Materias {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long materiasId;
     private String nomeMateria;
+    private String codigo;
 
     @OneToMany(mappedBy = "materia", cascade = CascadeType.ALL)
     private List<SecaoMaterias> secaoMaterias;

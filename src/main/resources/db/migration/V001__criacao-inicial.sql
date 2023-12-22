@@ -16,17 +16,18 @@ CREATE TABLE if not exists `usuarios`(
 
 CREATE TABLE if not exists `materias` (
     `materias_id` INT PRIMARY KEY,
-    `nome_materia` VARCHAR(255)
+    `nome_materia` VARCHAR(255) NOT NULL,
+    `codigo` VARCHAR(255) NOT NULL UNIQUE
 );
 
-CREATE TABLE `secao_materias` (
+CREATE TABLE if not exists `secao_materias` (
     `secao_materias_id` INT PRIMARY KEY,
     `materias_id` INT,
     `secao_materias_nome` VARCHAR(255),
     FOREIGN KEY (materias_id) REFERENCES materias(materias_id)
 );
 
-CREATE TABLE `conteudo_secao` (
+CREATE TABLE if not exists `conteudo_secao` (
     `conteudo_secao_id` INT PRIMARY KEY,
     `secao_materias_id` INT,
     `conteudo_da_secao` TEXT,
