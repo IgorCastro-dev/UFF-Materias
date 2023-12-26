@@ -42,6 +42,12 @@ public class MateriasService {
         materiasRepository.deleteById(id);
     }
 
+    @Transactional
+    public Materias salvaMateria(MateriaRequestDto materiaRequestDto){
+        Materias materias = modelMapper.map(materiaRequestDto,Materias.class);
+        return materiasRepository.save(materias);
+    }
+
     private Materias getMaterias(Long id) {
         return materiasRepository.findById(id).orElseThrow(
                 () -> new NotFoundException("Matéria não encontrada"));

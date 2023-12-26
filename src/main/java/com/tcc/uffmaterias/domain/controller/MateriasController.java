@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,7 +40,7 @@ public class MateriasController {
         return ResponseEntity.ok(materiasService.buscaMateria(id));
     }
 
-    @Operation(summary = "Atualiza usuário por id")
+    @Operation(summary = "Atualiza matéria por id")
     @PutMapping("/{materia_id}")
     public ResponseEntity<Materias> atualizarMaterias(@PathVariable("materia_id") Long id, @Valid @RequestBody MateriaRequestDto materiaRequestDto){
         return ResponseEntity.ok(materiasService.atualizarMateria(id,materiaRequestDto));
@@ -50,5 +51,11 @@ public class MateriasController {
     public ResponseEntity<Void> deletaMateria(@PathVariable("materia_id") Long id){
         materiasService.deletaMateria(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @Operation(summary = "Salva matéria")
+    @PostMapping()
+    public ResponseEntity<Materias> salvarMateria(@Valid @RequestBody MateriaRequestDto materiaRequestDto){
+        return ResponseEntity.ok(materiasService.salvaMateria(materiaRequestDto));
     }
 }

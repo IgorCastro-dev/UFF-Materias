@@ -8,6 +8,7 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -22,6 +23,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RestControllerAdvice
@@ -42,10 +44,18 @@ public class ResourceHandler extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
-        return handleValidationInternal(ex, headers, status, request,ex.getBindingResult());
+        return handleValidationInternal(ex, status, request,ex.getBindingResult());
     }
 
-    private ResponseEntity<Object> handleValidationInternal(Exception ex, HttpHeaders headers, HttpStatusCode status, WebRequest request, BindingResult bindingResult) {
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<ErroTemplate> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
+        String detail = Objects.requireNonNull(ex.getRootCause()).getMessage();
+        ErroTemplate erro = createErroBuilder(HttpStatus.BAD_REQUEST,ErroType.DADOS_INVALIDDOS,detail).timestamp(OffsetDateTime.now()).build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erro);
+    }
+
+
+    private ResponseEntity<Object> handleValidationInternal(Exception ex, HttpStatusCode status, WebRequest request, BindingResult bindingResult) {
         String detail = "Um ou mais campos estão inválidos. Faça o preenchimento correto";
         List<ErroTemplate.Field> erroField = bindingResult.getFieldErrors().stream()
                 .map(fieldError ->{
