@@ -1,8 +1,10 @@
 package com.tcc.uffmaterias.domain.service;
 
+import com.tcc.uffmaterias.Mapper.MateriaMapper;
 import com.tcc.uffmaterias.domain.model.Materias;
 import com.tcc.uffmaterias.domain.repository.MateriasRepository;
 import com.tcc.uffmaterias.dto.request.MateriaRequestDto;
+import com.tcc.uffmaterias.dto.response.MateriaResponseDto;
 import com.tcc.uffmaterias.error.erros.NotFoundException;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
@@ -20,20 +22,23 @@ public class MateriasService {
     @Autowired
     private ModelMapper modelMapper;
 
-    public List<Materias> listarMaterias(){
-        return materiasRepository.findAll();
+    @Autowired
+    private MateriaMapper materiaMapper;
+
+    public List<MateriaResponseDto> listarMaterias(){
+        return  materiaMapper.listEntityToListDto(materiasRepository.findAll());
     }
 
-    public Materias buscaMateria(Long id){
-        return getMaterias(id);
+    public MateriaResponseDto buscaMateria(Long id){
+        return materiaMapper.entityToDto(getMaterias(id));
     }
 
     @Transactional
-    public Materias atualizarMateria(Long id, MateriaRequestDto materiaRequestDto) {
+    public MateriaResponseDto atualizarMateria(Long id, MateriaRequestDto materiaRequestDto) {
         Materias materias = getMaterias(id);
         modelMapper.map(materiaRequestDto,materias);
         materiasRepository.save(materias);
-        return materias;
+        return materiaMapper.entityToDto(materias);
     }
 
     @Transactional
@@ -43,9 +48,9 @@ public class MateriasService {
     }
 
     @Transactional
-    public Materias salvaMateria(MateriaRequestDto materiaRequestDto){
+    public MateriaResponseDto salvaMateria(MateriaRequestDto materiaRequestDto){
         Materias materias = modelMapper.map(materiaRequestDto,Materias.class);
-        return materiasRepository.save(materias);
+        return materiaMapper.entityToDto(materiasRepository.save(materias));
     }
 
     private Materias getMaterias(Long id) {

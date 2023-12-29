@@ -3,6 +3,7 @@ package com.tcc.uffmaterias.domain.controller;
 import com.tcc.uffmaterias.domain.model.Materias;
 import com.tcc.uffmaterias.domain.service.MateriasService;
 import com.tcc.uffmaterias.dto.request.MateriaRequestDto;
+import com.tcc.uffmaterias.dto.response.MateriaResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -30,19 +31,19 @@ public class MateriasController {
 
     @Operation(summary = "Listar todas as matérias")
     @GetMapping
-    public ResponseEntity<List<Materias>> listarMaterias(){
+    public ResponseEntity<List<MateriaResponseDto>> listarMaterias(){
         return ResponseEntity.ok(materiasService.listarMaterias());
     }
 
     @Operation(summary = "Busca a matérias por id")
     @GetMapping("/{materia_id}")
-    public ResponseEntity<Materias> buscarMaterias(@PathVariable("materia_id") Long id){
+    public ResponseEntity<MateriaResponseDto> buscarMaterias(@PathVariable("materia_id") Long id){
         return ResponseEntity.ok(materiasService.buscaMateria(id));
     }
 
     @Operation(summary = "Atualiza matéria por id")
     @PutMapping("/{materia_id}")
-    public ResponseEntity<Materias> atualizarMaterias(@PathVariable("materia_id") Long id, @Valid @RequestBody MateriaRequestDto materiaRequestDto){
+    public ResponseEntity<MateriaResponseDto> atualizarMaterias(@PathVariable("materia_id") Long id, @Valid @RequestBody MateriaRequestDto materiaRequestDto){
         return ResponseEntity.ok(materiasService.atualizarMateria(id,materiaRequestDto));
     }
 
@@ -55,7 +56,7 @@ public class MateriasController {
 
     @Operation(summary = "Salva matéria")
     @PostMapping()
-    public ResponseEntity<Materias> salvarMateria(@Valid @RequestBody MateriaRequestDto materiaRequestDto){
+    public ResponseEntity<MateriaResponseDto> salvarMateria(@Valid @RequestBody MateriaRequestDto materiaRequestDto){
         return ResponseEntity.ok(materiasService.salvaMateria(materiaRequestDto));
     }
 }
