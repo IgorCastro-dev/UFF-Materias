@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,5 +23,11 @@ public class SecaoMateriaController {
     @GetMapping
     public ResponseEntity<List<SecaoMateriaResponseDto>> listarTopicos(){
         return ResponseEntity.ok(secaoMateriasService.listarSecaoMaterias());
+    }
+
+    @Operation(summary = "Buscar Tópico por Id")
+    @GetMapping("/{topico_id}")
+    public ResponseEntity<SecaoMateriaResponseDto> buscarTopicoPorId(@PathVariable("topico_id") Long id){
+        return ResponseEntity.ok(secaoMateriasService.buscarSecaoMateriaPorId(id));
     }
 }
