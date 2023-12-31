@@ -53,7 +53,7 @@ public class MateriasService {
         return materiaMapper.entityToDto(materiasRepository.save(materias));
     }
 
-    private Materias getMaterias(Long id) {
+    public Materias getMaterias(Long id) {
         return materiasRepository.findById(id).orElseThrow(
                 () -> new NotFoundException("Matéria não encontrada"));
     }
