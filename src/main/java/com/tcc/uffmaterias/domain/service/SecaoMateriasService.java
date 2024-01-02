@@ -45,6 +45,14 @@ public class SecaoMateriasService {
         return secaoMateriaMapper.entityToDto(secaoMaterias);
     }
 
+    public SecaoMateriaResponseDto salvaSecaoMateria(Long materiaId,SecaoMateriaRequestDto secaoMateriaRequestDto){
+        SecaoMaterias secaoMaterias = modelMapper.map(secaoMateriaRequestDto,SecaoMaterias.class);
+        Materias materias = materiasService.getMaterias(materiaId);
+        secaoMaterias.setMateria(materias);
+        SecaoMaterias secaoMateriasSalva = secaoMateriaRepository.save(secaoMaterias);
+        return secaoMateriaMapper.entityToDto(secaoMateriasSalva);
+    }
+
     private SecaoMaterias getSecaoMateria(Long id) {
         return secaoMateriaRepository.findById(id).orElseThrow(
                 () -> new NotFoundException("Matéria não encontrada"));

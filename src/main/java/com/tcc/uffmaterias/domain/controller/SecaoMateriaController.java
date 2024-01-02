@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,5 +48,13 @@ public class SecaoMateriaController {
             @PathVariable("topico_id") Long id,
             @Valid @RequestBody SecaoMateriaRequestDto secaoMateriaRequestDto){
         return ResponseEntity.ok(secaoMateriasService.atualizaMateriaporId(id,secaoMateriaRequestDto));
+    }
+
+    @Operation(summary = "Salva Tópico passando o id da matéria no parâmetro")
+    @PostMapping("/{materia_id}")
+    public ResponseEntity<SecaoMateriaResponseDto> salvarTopico(
+            @PathVariable("materia_id") Long id,
+            @Valid @RequestBody SecaoMateriaRequestDto secaoMateriaRequestDto){
+        return ResponseEntity.ok(secaoMateriasService.salvaSecaoMateria(id,secaoMateriaRequestDto));
     }
 }
