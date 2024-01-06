@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
+import java.net.URL;
 
 @Service
 public class S3ConteudoService {
@@ -31,7 +32,15 @@ public class S3ConteudoService {
         }catch (Exception e){
             throw new StorageException("Não foi possível enviar o arquivo para a AmazonS3",e);
         }
+    }
 
+    public URL buscarUrlArquivoS3(String descricao, Long conteudoId){
+        try {
+            var caminhoArquivo = getCaminho(descricao,conteudoId);
+            return amazonS3.getUrl(BUCKET,caminhoArquivo);
+        }catch (Exception e){
+            throw new StorageException("Não foi possível buscar o arquivo da AmazonS3",e);
+        }
     }
 
     private String getCaminho(String descricao,Long conteudoId) {
