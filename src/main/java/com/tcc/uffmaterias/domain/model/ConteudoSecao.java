@@ -15,6 +15,7 @@ public class ConteudoSecao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long conteudoSecaoId;
     private String conteudoDaSecao;
+    private String descricao;
     @ManyToOne
     @JoinColumn(name = "secao_materias_id")
     private SecaoMaterias secaoMaterias;

@@ -23,14 +23,15 @@ CREATE TABLE if not exists `materias` (
 CREATE TABLE if not exists `secao_materias` (
     `secao_materias_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `materias_id` INT,
-    `secao_materias_nome` VARCHAR(255),
+    `secao_materias_nome` VARCHAR(255) NOT NULL,
     FOREIGN KEY (materias_id) REFERENCES materias(materias_id)
 );
 
 CREATE TABLE if not exists `conteudo_secao` (
     `conteudo_secao_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `secao_materias_id` INT,
-    `conteudo_da_secao` TEXT,
+    `conteudo_da_secao` TEXT NOT NULL,
+    `descricao` VARCHAR(255) NOT NULL,
     FOREIGN KEY (secao_materias_id) REFERENCES secao_materias(secao_materias_id)
 );
 

@@ -63,8 +63,8 @@ public class SecaoMateriasService {
     }
 
 
-    private SecaoMaterias getSecaoMateria(Long id) {
+    public SecaoMaterias getSecaoMateria(Long id) {
         return secaoMateriaRepository.findById(id).orElseThrow(
-                () -> new NotFoundException("Matéria não encontrada"));
+                () -> new NotFoundException("Tópico não encontrado"));
     }
 }
