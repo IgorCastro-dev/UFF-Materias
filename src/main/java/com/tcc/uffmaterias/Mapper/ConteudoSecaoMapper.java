@@ -7,6 +7,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Component
 public class ConteudoSecaoMapper {
     @Autowired
@@ -16,9 +19,10 @@ public class ConteudoSecaoMapper {
     private S3ConteudoService s3ConteudoService;
 
     public ConteudoSecaoResponseDto entityToDto(ConteudoSecao conteudoSecao){
-        ConteudoSecaoResponseDto dto = modelMapper.map(conteudoSecao,ConteudoSecaoResponseDto.class);
-        dto.setUrl(s3ConteudoService.buscarUrlArquivoS3(conteudoSecao.getDescricao()
-                    ,conteudoSecao.getConteudoSecaoId()).toString());
-        return dto;
+        return modelMapper.map(conteudoSecao,ConteudoSecaoResponseDto.class);
+    }
+
+    public List<ConteudoSecaoResponseDto> listEntityToListDto(List<ConteudoSecao> conteudoSecoes){
+        return conteudoSecoes.stream().map(this::entityToDto).collect(Collectors.toList());
     }
 }

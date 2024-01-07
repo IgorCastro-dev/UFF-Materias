@@ -22,7 +22,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/topicos")
-@Tag(name = "Tópicos", description = "Gerencia os tópicos")
+@Tag(name = "Tópicos", description = "Gerencia os tópicos da matéria")
 public class SecaoMateriaController {
     @Autowired
     private SecaoMateriasService secaoMateriasService;

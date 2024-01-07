@@ -6,6 +6,7 @@ import com.tcc.uffmaterias.domain.model.SecaoMaterias;
 import com.tcc.uffmaterias.domain.repository.ConteudoSecaoRepository;
 import com.tcc.uffmaterias.dto.request.ConteudoSecaoRequestDto;
 import com.tcc.uffmaterias.dto.response.ConteudoSecaoResponseDto;
+import com.tcc.uffmaterias.error.erros.NotFoundException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.net.URL;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -35,13 +38,25 @@ public class ConteudoSecaoService {
         ConteudoSecao conteudoSecao = dtoToEntity(secaoMateriaId,conteudoSecaoRequestDto);
         conteudoSecaoRepository.save(conteudoSecao);
         conteudoSecaoRepository.flush();
-        s3ConteudoService.armazenar(conteudoSecaoRequestDto,conteudoSecao.getConteudoSecaoId());
+        s3ConteudoService.armazenar(conteudoSecaoRequestDto,conteudoSecao.getNome());
         return conteudoSecaoMapper.entityToDto(conteudoSecao);
+    }
+
+    public List<ConteudoSecaoResponseDto> listarConteudos(Long secaoMateriaId){
+        SecaoMaterias secaoMaterias = secaoMateriasService.getSecaoMateria(secaoMateriaId);
+        return conteudoSecaoMapper.listEntityToListDto(conteudoSecaoRepository.findAllBySecaoMaterias(secaoMaterias));
+    }
+
+    public byte[] dowloadConteudo(String fileNome){
+        conteudoSecaoRepository.findByNome(fileNome).orElseThrow(
+                ()->new NotFoundException("Conteúdo não encontrado"));
+        return s3ConteudoService.buscarUrlArquivoS3(fileNome);
     }
 
     private ConteudoSecao dtoToEntity(Long secaoMateriaId,ConteudoSecaoRequestDto conteudoSecaoRequestDto) {
         SecaoMaterias secaoMaterias = secaoMateriasService.getSecaoMateria(secaoMateriaId);
         ConteudoSecao conteudoSecao = new ConteudoSecao();
+        conteudoSecao.setNome(conteudoSecaoRequestDto.getArquivo().getOriginalFilename());
         conteudoSecao.setConteudoDaSecao(conteudoSecaoRequestDto.getArquivo().getContentType());
         conteudoSecao.setDescricao(conteudoSecaoRequestDto.getDescricao());
         conteudoSecao.setSecaoMaterias(secaoMaterias);

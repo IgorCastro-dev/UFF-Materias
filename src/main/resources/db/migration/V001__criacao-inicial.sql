@@ -30,6 +30,7 @@ CREATE TABLE if not exists `secao_materias` (
 CREATE TABLE if not exists `conteudo_secao` (
     `conteudo_secao_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `secao_materias_id` INT,
+    `nome` VARCHAR(255) NOT NULL UNIQUE,
     `conteudo_da_secao` TEXT NOT NULL,
     `descricao` VARCHAR(255) NOT NULL,
     FOREIGN KEY (secao_materias_id) REFERENCES secao_materias(secao_materias_id)
