@@ -8,16 +8,10 @@ import com.tcc.uffmaterias.dto.request.ConteudoSecaoRequestDto;
 import com.tcc.uffmaterias.dto.response.ConteudoSecaoResponseDto;
 import com.tcc.uffmaterias.error.erros.NotFoundException;
 import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.net.URL;
-import java.nio.file.Path;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class ConteudoSecaoService {
@@ -42,6 +36,12 @@ public class ConteudoSecaoService {
         return conteudoSecaoMapper.entityToDto(conteudoSecao);
     }
 
+    public ConteudoSecaoResponseDto buscarConteudo(Long conteudoId){
+        ConteudoSecao conteudoSecao = conteudoSecaoRepository.findById(conteudoId).orElseThrow(
+                () -> new NotFoundException("Conteúdo não encontrado"));
+        return conteudoSecaoMapper.entityToDto(conteudoSecao);
+    }
+
     public List<ConteudoSecaoResponseDto> listarConteudos(Long secaoMateriaId){
         SecaoMaterias secaoMaterias = secaoMateriasService.getSecaoMateria(secaoMateriaId);
         return conteudoSecaoMapper.listEntityToListDto(conteudoSecaoRepository.findAllBySecaoMaterias(secaoMaterias));
@@ -49,11 +49,11 @@ public class ConteudoSecaoService {
 
     public byte[] dowloadConteudo(String fileNome){
         conteudoSecaoRepository.findByNome(fileNome).orElseThrow(
-                ()->new NotFoundException("Conteúdo não encontrado"));
+                () -> new NotFoundException("Conteúdo não encontrado"));
         return s3ConteudoService.buscarUrlArquivoS3(fileNome);
     }
 
-    private ConteudoSecao dtoToEntity(Long secaoMateriaId,ConteudoSecaoRequestDto conteudoSecaoRequestDto) {
+        private ConteudoSecao dtoToEntity(Long secaoMateriaId,ConteudoSecaoRequestDto conteudoSecaoRequestDto) {
         SecaoMaterias secaoMaterias = secaoMateriasService.getSecaoMateria(secaoMateriaId);
         ConteudoSecao conteudoSecao = new ConteudoSecao();
         conteudoSecao.setNome(conteudoSecaoRequestDto.getArquivo().getOriginalFilename());

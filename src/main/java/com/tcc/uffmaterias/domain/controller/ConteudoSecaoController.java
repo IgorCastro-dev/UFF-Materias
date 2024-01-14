@@ -46,6 +46,13 @@ public class ConteudoSecaoController {
         return ResponseEntity.ok(conteudoSecaoService.listarConteudos(secaoMateriaId));
     }
 
+    @Operation(summary = "Buscar o conteúdo do tópico passando o id do conteúdo no parâmetro")
+    @GetMapping("buscar/{conteudoId}")
+    public ResponseEntity<ConteudoSecaoResponseDto> buscarConteudo(
+            @PathVariable("conteudoId") Long conteudoId){
+        return ResponseEntity.ok(conteudoSecaoService.buscarConteudo(conteudoId));
+    }
+
     @Operation(summary = "Faz dowload do conteúdo passando o nome do conteudo no parâmetro")
     @GetMapping("/dowload/{fileNome}")
     public ResponseEntity<byte[]> dowloadConteudo(@PathVariable("fileNome") String fileNome) throws UnsupportedEncodingException {

@@ -13,7 +13,7 @@ public class UsuarioRequestDto {
     private String email;
 
     @NotBlank
-    @Size(min = 16)
+    @Size(min = 11)
     private String celular;
 
     @NotBlank
