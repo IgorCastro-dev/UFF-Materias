@@ -13,6 +13,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -52,6 +53,12 @@ public class ConteudoSecaoController {
             @RequestPart(value = "arquivo",required = false) MultipartFile arquivo,
             @RequestPart("descricao") String descricao){
         return ResponseEntity.ok(conteudoSecaoService.atualizaConteudoSecao(conteudoId, arquivo, descricao));
+    }
+    @Operation(summary = "Atualiza o conteúdo passando o id do conteudo no parâmetro")
+    @DeleteMapping("/{fileNome}")
+    public ResponseEntity<Void> deletaConteudo(@PathVariable("fileNome") String fileNome){
+        conteudoSecaoService.deletaConteudoByNome(fileNome);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @Operation(summary = "Lista os conteúdos do tópico passando o id do tópico no parâmetro")

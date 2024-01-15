@@ -44,16 +44,16 @@ public class ConteudoSecaoService {
             MultipartFile arquivo,
             String descricao) {
         ConteudoSecao conteudoSecaoAtual = getConteudoById(conteudoId);
+        String nomeAntigo = conteudoSecaoAtual.getNome();
         if (Objects.isNull(arquivo)){
             conteudoSecaoAtual.setDescricao(descricao);
             conteudoSecaoRepository.save(conteudoSecaoAtual);
             return conteudoSecaoMapper.entityToDto(conteudoSecaoAtual);
         }
         ConteudoSecao conteudoSecaoNovo = getConteudoSecaoNovo(arquivo, descricao,conteudoSecaoAtual);
-
-        conteudoSecaoRepository.save(conteudoSecaoNovo);
+ //       conteudoSecaoRepository.save(conteudoSecaoNovo);
         conteudoSecaoRepository.flush();
-        s3ConteudoService.atualizar(arquivo,conteudoSecaoNovo.getNome(),conteudoSecaoAtual.getNome());
+        s3ConteudoService.atualizar(arquivo,conteudoSecaoNovo.getNome(),nomeAntigo);
         return conteudoSecaoMapper.entityToDto(conteudoSecaoNovo);
     }
 
@@ -68,10 +68,24 @@ public class ConteudoSecaoService {
     }
 
     public byte[] dowloadConteudo(String fileNome){
-        conteudoSecaoRepository.findByNome(fileNome).orElseThrow(
-                () -> new NotFoundException("Conteúdo não encontrado"));
+        getConteudoByName(fileNome);
         return s3ConteudoService.buscarUrlArquivoS3(fileNome);
     }
+
+    @Transactional
+    public void deletaConteudoByNome(String fileNome) {
+        ConteudoSecao conteudoSecao = getConteudoByName(fileNome);
+        conteudoSecaoRepository.delete(conteudoSecao);
+        conteudoSecaoRepository.flush();
+        s3ConteudoService.deletar(fileNome);
+    }
+
+    private ConteudoSecao getConteudoByName(String fileNome) {
+        return conteudoSecaoRepository.findByNome(fileNome).orElseThrow(
+                () -> new NotFoundException("Conteúdo não encontrado"));
+    }
+
+
 
     private ConteudoSecao getConteudoSecaoNovo(MultipartFile arquivo, String descricao,ConteudoSecao conteudoSecaoAtual) {
         conteudoSecaoAtual.setDescricao(descricao);
@@ -91,8 +105,10 @@ public class ConteudoSecaoService {
     }
 
     private ConteudoSecao getConteudoById(Long conteudoId) {
-        return conteudoSecaoRepository.findById(conteudoId).orElseThrow(
+        ConteudoSecao conteudoSecao = conteudoSecaoRepository.findById(conteudoId).orElseThrow(
                 () -> new NotFoundException("Conteúdo não encontrado"));
+        return conteudoSecao;
     }
 
+    
 }

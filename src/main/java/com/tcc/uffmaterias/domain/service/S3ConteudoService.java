@@ -1,6 +1,7 @@
 package com.tcc.uffmaterias.domain.service;
 
 import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
@@ -52,12 +53,16 @@ public class S3ConteudoService {
     }
 
     public void deletar(String nome) {
-        String caminhoArquivo = getCaminho(nome);
-        DeleteObjectRequest deleteObjectRequest = new DeleteObjectRequest(
-                BUCKET,
-                caminhoArquivo
-        );
-        amazonS3.deleteObject(deleteObjectRequest);
+        try {
+            String caminhoArquivo = getCaminho(nome);
+            DeleteObjectRequest deleteObjectRequest = new DeleteObjectRequest(
+                    BUCKET,
+                    caminhoArquivo
+            );
+            amazonS3.deleteObject(deleteObjectRequest);
+        } catch (AmazonS3Exception e) {
+            throw new StorageException("Não foi possível deletar o arquivo na AmazonS3",e);
+        }
     }
 
     public byte[] buscarUrlArquivoS3(String fileNome){
