@@ -60,7 +60,7 @@ public class S3ConteudoService {
                     caminhoArquivo
             );
             amazonS3.deleteObject(deleteObjectRequest);
-        } catch (AmazonS3Exception e) {
+        } catch (Exception e) {
             throw new StorageException("Não foi possível deletar o arquivo na AmazonS3",e);
         }
     }
