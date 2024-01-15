@@ -10,8 +10,10 @@ import com.tcc.uffmaterias.error.erros.NotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class ConteudoSecaoService {
@@ -36,9 +38,27 @@ public class ConteudoSecaoService {
         return conteudoSecaoMapper.entityToDto(conteudoSecao);
     }
 
+    @Transactional
+    public ConteudoSecaoResponseDto atualizaConteudoSecao(
+            Long conteudoId,
+            MultipartFile arquivo,
+            String descricao) {
+        ConteudoSecao conteudoSecaoAtual = getConteudoById(conteudoId);
+        if (Objects.isNull(arquivo)){
+            conteudoSecaoAtual.setDescricao(descricao);
+            conteudoSecaoRepository.save(conteudoSecaoAtual);
+            return conteudoSecaoMapper.entityToDto(conteudoSecaoAtual);
+        }
+        ConteudoSecao conteudoSecaoNovo = getConteudoSecaoNovo(arquivo, descricao,conteudoSecaoAtual);
+
+        conteudoSecaoRepository.save(conteudoSecaoNovo);
+        conteudoSecaoRepository.flush();
+        s3ConteudoService.atualizar(arquivo,conteudoSecaoNovo.getNome(),conteudoSecaoAtual.getNome());
+        return conteudoSecaoMapper.entityToDto(conteudoSecaoNovo);
+    }
+
     public ConteudoSecaoResponseDto buscarConteudo(Long conteudoId){
-        ConteudoSecao conteudoSecao = conteudoSecaoRepository.findById(conteudoId).orElseThrow(
-                () -> new NotFoundException("Conteúdo não encontrado"));
+        ConteudoSecao conteudoSecao = getConteudoById(conteudoId);
         return conteudoSecaoMapper.entityToDto(conteudoSecao);
     }
 
@@ -53,7 +73,14 @@ public class ConteudoSecaoService {
         return s3ConteudoService.buscarUrlArquivoS3(fileNome);
     }
 
-        private ConteudoSecao dtoToEntity(Long secaoMateriaId,ConteudoSecaoRequestDto conteudoSecaoRequestDto) {
+    private ConteudoSecao getConteudoSecaoNovo(MultipartFile arquivo, String descricao,ConteudoSecao conteudoSecaoAtual) {
+        conteudoSecaoAtual.setDescricao(descricao);
+        conteudoSecaoAtual.setConteudoDaSecao(arquivo.getContentType());
+        conteudoSecaoAtual.setNome(arquivo.getOriginalFilename());
+        return conteudoSecaoAtual;
+    }
+
+    private ConteudoSecao dtoToEntity(Long secaoMateriaId,ConteudoSecaoRequestDto conteudoSecaoRequestDto) {
         SecaoMaterias secaoMaterias = secaoMateriasService.getSecaoMateria(secaoMateriaId);
         ConteudoSecao conteudoSecao = new ConteudoSecao();
         conteudoSecao.setNome(conteudoSecaoRequestDto.getArquivo().getOriginalFilename());
@@ -62,4 +89,10 @@ public class ConteudoSecaoService {
         conteudoSecao.setSecaoMaterias(secaoMaterias);
         return conteudoSecao;
     }
+
+    private ConteudoSecao getConteudoById(Long conteudoId) {
+        return conteudoSecaoRepository.findById(conteudoId).orElseThrow(
+                () -> new NotFoundException("Conteúdo não encontrado"));
+    }
+
 }
