@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.fasterxml.jackson.databind.exc.PropertyBindingException;
 import com.tcc.uffmaterias.error.erros.NotFoundException;
+import com.tcc.uffmaterias.error.erros.UnauthorizedException;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -40,6 +41,16 @@ public class ResourceHandler extends ResponseEntityExceptionHandler {
                 .httpStatusCode(HttpStatus.NOT_FOUND.value())
                 .build();
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(erro);
+    }
+
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<ErroTemplate> unauthorizedException(UnauthorizedException u){
+        ErroTemplate erro = ErroTemplate.builder()
+                .detail(u.getMessage())
+                .httpStatus(HttpStatus.UNAUTHORIZED)
+                .httpStatusCode(HttpStatus.UNAUTHORIZED.value())
+                .build();
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(erro);
     }
 
     @Override

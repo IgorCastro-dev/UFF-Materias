@@ -8,12 +8,15 @@ import com.tcc.uffmaterias.error.erros.NotFoundException;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class UsuarioService {
+public class UsuarioService implements UserDetailsService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
@@ -33,13 +36,18 @@ public class UsuarioService {
         usuarioRepository.deleteById(id);
     }
 
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        return usuarioRepository.findByEmail(email).orElseThrow(
+                ()-> new NotFoundException("Usuário não encontrado")
+        );
+    }
+
     public Usuarios buscaUsuario(Long id) {
         return getUsuarios(id);
     }
 
-    private Usuarios getUsuarios(Long id) {
-        return usuarioRepository.findById(id).orElseThrow(() -> new NotFoundException("Usuário não encontrado"));
-    }
+
 
     @Transactional
     public Usuarios atualizarUsuario(Long id, UsuarioRequestDto usuarioRequestDto) {
@@ -51,4 +59,10 @@ public class UsuarioService {
         usuarioRepository.save(usuarios);
         return usuarios;
     }
+
+    private Usuarios getUsuarios(Long id) {
+        return usuarioRepository.findById(id).orElseThrow(() -> new NotFoundException("Usuário não encontrado"));
+    }
+
+
 }
