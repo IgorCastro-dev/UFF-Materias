@@ -1,7 +1,7 @@
 package com.tcc.uffmaterias.filter;
 
-import com.tcc.uffmaterias.domain.model.Usuarios;
-import com.tcc.uffmaterias.domain.repository.UsuarioRepository;
+import com.tcc.uffmaterias.domain.model.jpa.Usuarios;
+import com.tcc.uffmaterias.domain.repository.jpa.UsuarioRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

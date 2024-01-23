@@ -1,5 +1,6 @@
-package com.tcc.uffmaterias.domain.model;
+package com.tcc.uffmaterias.domain.model.jpa;
 
+import com.tcc.uffmaterias.domain.model.jpa.SecaoMaterias;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

@@ -1,8 +1,8 @@
 package com.tcc.uffmaterias.domain.service;
-import com.tcc.uffmaterias.domain.model.UsuarioTipo;
-import com.tcc.uffmaterias.domain.model.Usuarios;
-import com.tcc.uffmaterias.domain.repository.UsuarioRepository;
-import com.tcc.uffmaterias.domain.repository.UsuarioTipoRepository;
+import com.tcc.uffmaterias.domain.model.jpa.UsuarioTipo;
+import com.tcc.uffmaterias.domain.model.jpa.Usuarios;
+import com.tcc.uffmaterias.domain.repository.jpa.UsuarioRepository;
+import com.tcc.uffmaterias.domain.repository.jpa.UsuarioTipoRepository;
 import com.tcc.uffmaterias.dto.request.UsuarioRequestDto;
 import com.tcc.uffmaterias.error.erros.NotFoundException;
 import jakarta.transaction.Transactional;

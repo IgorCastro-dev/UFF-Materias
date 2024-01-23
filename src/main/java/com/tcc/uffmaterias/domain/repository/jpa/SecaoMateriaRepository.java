@@ -1,7 +1,7 @@
-package com.tcc.uffmaterias.domain.repository;
+package com.tcc.uffmaterias.domain.repository.jpa;
 
-import com.tcc.uffmaterias.domain.model.Materias;
-import com.tcc.uffmaterias.domain.model.SecaoMaterias;
+import com.tcc.uffmaterias.domain.model.jpa.Materias;
+import com.tcc.uffmaterias.domain.model.jpa.SecaoMaterias;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

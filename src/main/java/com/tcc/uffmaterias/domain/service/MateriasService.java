@@ -1,8 +1,8 @@
 package com.tcc.uffmaterias.domain.service;
 
 import com.tcc.uffmaterias.Mapper.MateriaMapper;
-import com.tcc.uffmaterias.domain.model.Materias;
-import com.tcc.uffmaterias.domain.repository.MateriasRepository;
+import com.tcc.uffmaterias.domain.model.jpa.Materias;
+import com.tcc.uffmaterias.domain.repository.jpa.MateriasRepository;
 import com.tcc.uffmaterias.dto.request.MateriaRequestDto;
 import com.tcc.uffmaterias.dto.response.MateriaResponseDto;
 import com.tcc.uffmaterias.error.erros.NotFoundException;

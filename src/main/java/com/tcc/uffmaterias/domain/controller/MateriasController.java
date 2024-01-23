@@ -1,6 +1,5 @@
 package com.tcc.uffmaterias.domain.controller;
 
-import com.tcc.uffmaterias.domain.model.Materias;
 import com.tcc.uffmaterias.domain.service.MateriasService;
 import com.tcc.uffmaterias.dto.request.MateriaRequestDto;
 import com.tcc.uffmaterias.dto.response.MateriaResponseDto;

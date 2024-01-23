@@ -1,6 +1,6 @@
 package com.tcc.uffmaterias.domain.service;
 
-import com.tcc.uffmaterias.domain.model.Usuarios;
+import com.tcc.uffmaterias.domain.model.jpa.Usuarios;
 import com.tcc.uffmaterias.dto.request.TokenDto;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -17,7 +17,7 @@ public class TokenServiceImpl implements TokenService {
     public Token generateToken(Usuarios userCredentials) {
         Date today = new Date();
         String jwt = Jwts.builder()
-                .signWith(SignatureAlgorithm.HS256,"$2a$12$gas0FT8qIhvVeYunvLNz8eA2otC0VFCCvKIOiIbs7EISdrAMVlUY6")
+                .signWith(SignatureAlgorithm.HS256,"$2a$12$KtSqD0bFWI5JAss6Xb4HQ.nhT33Ck2jFFwP/Z3U49Gq863ohhxLiG")
                 .setSubject(userCredentials.getUsername())
                 .claim("roles",userCredentials.getUsuarioTipo().getNome())
                 .setIssuer("Token do app")
@@ -35,7 +35,7 @@ public class TokenServiceImpl implements TokenService {
 
     public Token verifyToken(String key) {
         Claims claims = Jwts.parser()
-                .setSigningKey("$2a$12$gas0FT8qIhvVeYunvLNz8eA2otC0VFCCvKIOiIbs7EISdrAMVlUY6")
+                .setSigningKey("$2a$12$KtSqD0bFWI5JAss6Xb4HQ.nhT33Ck2jFFwP/Z3U49Gq863ohhxLiG")
                 .parseClaimsJws(key)
                 .getBody();
         return new TokenDto(key,claims.getIssuedAt().getTime(),claims.getSubject());

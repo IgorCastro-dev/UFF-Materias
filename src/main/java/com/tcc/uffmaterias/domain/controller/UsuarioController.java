@@ -1,17 +1,24 @@
 package com.tcc.uffmaterias.domain.controller;
 
-import com.tcc.uffmaterias.domain.model.Usuarios;
+import com.tcc.uffmaterias.domain.model.jpa.Usuarios;
+import com.tcc.uffmaterias.domain.model.redis.UserRegisterCode;
+import com.tcc.uffmaterias.domain.service.RegisterService;
 import com.tcc.uffmaterias.domain.service.UsuarioService;
+import com.tcc.uffmaterias.dto.request.CodeDto;
+import com.tcc.uffmaterias.dto.request.RegisterDto;
 import com.tcc.uffmaterias.dto.request.UsuarioRequestDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
+import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +33,9 @@ public class UsuarioController {
 
     @Autowired
     private UsuarioService usuarioService;
+
+    @Autowired
+    private RegisterService registerService;
 
     @Operation(summary = "Lista os usuarios")
     @GetMapping
@@ -50,5 +60,19 @@ public class UsuarioController {
     @PutMapping("/{usuario_id}")
     public ResponseEntity<Usuarios> atualizarUsuario(@PathVariable("usuario_id") Long id,@Valid @RequestBody UsuarioRequestDto usuarioRequestDto){
         return ResponseEntity.ok(usuarioService.atualizarUsuario(id,usuarioRequestDto));
+    }
+    @Operation(summary = "Salva usuário no redis")
+    @PostMapping
+    public ResponseEntity<Void> salvaUsuarioNoRedis(@Valid @RequestBody RegisterDto registerDto){
+        registerService.register(registerDto);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @PostMapping("/verify-code")
+    public ResponseEntity<Void> verifyCode(
+            @Email @PathParam("email") String email,
+            @RequestBody CodeDto codeDto){
+        registerService.confirmCode(codeDto.getCode(),email);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

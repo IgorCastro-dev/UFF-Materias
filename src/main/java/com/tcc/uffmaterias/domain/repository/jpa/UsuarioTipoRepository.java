@@ -1,6 +1,6 @@
-package com.tcc.uffmaterias.domain.repository;
+package com.tcc.uffmaterias.domain.repository.jpa;
 
-import com.tcc.uffmaterias.domain.model.UsuarioTipo;
+import com.tcc.uffmaterias.domain.model.jpa.UsuarioTipo;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

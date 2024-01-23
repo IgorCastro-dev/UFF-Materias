@@ -1,4 +1,4 @@
-package com.tcc.uffmaterias.domain.model;
+package com.tcc.uffmaterias.domain.model.jpa;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;

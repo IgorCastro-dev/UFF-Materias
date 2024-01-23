@@ -1,4 +1,4 @@
-package com.tcc.uffmaterias.domain.model;
+package com.tcc.uffmaterias.domain.model.jpa;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,11 +9,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 
+import java.io.Serializable;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class UsuarioTipo implements GrantedAuthority {
+public class UsuarioTipo implements GrantedAuthority, Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long usuarioTipoId;

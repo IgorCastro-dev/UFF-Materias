@@ -1,6 +1,6 @@
 package com.tcc.uffmaterias.domain.service;
 
-import com.tcc.uffmaterias.domain.model.Usuarios;
+import com.tcc.uffmaterias.domain.model.jpa.Usuarios;
 import com.tcc.uffmaterias.dto.request.LoginDto;
 import com.tcc.uffmaterias.error.erros.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,9 +1,9 @@
 package com.tcc.uffmaterias.domain.service;
 
 import com.tcc.uffmaterias.Mapper.ConteudoSecaoMapper;
-import com.tcc.uffmaterias.domain.model.ConteudoSecao;
-import com.tcc.uffmaterias.domain.model.SecaoMaterias;
-import com.tcc.uffmaterias.domain.repository.ConteudoSecaoRepository;
+import com.tcc.uffmaterias.domain.model.jpa.ConteudoSecao;
+import com.tcc.uffmaterias.domain.model.jpa.SecaoMaterias;
+import com.tcc.uffmaterias.domain.repository.jpa.ConteudoSecaoRepository;
 import com.tcc.uffmaterias.dto.request.ConteudoSecaoRequestDto;
 import com.tcc.uffmaterias.dto.response.ConteudoSecaoResponseDto;
 import com.tcc.uffmaterias.error.erros.NotFoundException;
@@ -51,7 +51,7 @@ public class ConteudoSecaoService {
             return conteudoSecaoMapper.entityToDto(conteudoSecaoAtual);
         }
         ConteudoSecao conteudoSecaoNovo = getConteudoSecaoNovo(arquivo, descricao,conteudoSecaoAtual);
- //       conteudoSecaoRepository.save(conteudoSecaoNovo);
+        conteudoSecaoRepository.save(conteudoSecaoNovo);
         conteudoSecaoRepository.flush();
         s3ConteudoService.atualizar(arquivo,conteudoSecaoNovo.getNome(),nomeAntigo);
         return conteudoSecaoMapper.entityToDto(conteudoSecaoNovo);
@@ -105,7 +105,8 @@ public class ConteudoSecaoService {
     }
 
     private ConteudoSecao getConteudoById(Long conteudoId) {
-        ConteudoSecao conteudoSecao = conteudoSecaoRepository.findById(conteudoId).orElseThrow(
+        ConteudoSecao conteudoSecao;
+        conteudoSecao = conteudoSecaoRepository.findById(conteudoId).orElseThrow(
                 () -> new NotFoundException("Conteúdo não encontrado"));
         return conteudoSecao;
     }

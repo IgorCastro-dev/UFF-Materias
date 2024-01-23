@@ -1,6 +1,6 @@
 package com.tcc.uffmaterias.Mapper;
 
-import com.tcc.uffmaterias.domain.model.ConteudoSecao;
+import com.tcc.uffmaterias.domain.model.jpa.ConteudoSecao;
 import com.tcc.uffmaterias.domain.service.S3ConteudoService;
 import com.tcc.uffmaterias.dto.response.ConteudoSecaoResponseDto;
 import org.modelmapper.ModelMapper;

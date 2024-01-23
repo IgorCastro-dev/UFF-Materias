@@ -1,10 +1,9 @@
 package com.tcc.uffmaterias.domain.service;
 
 import com.tcc.uffmaterias.Mapper.SecaoMateriaMapper;
-import com.tcc.uffmaterias.domain.model.Materias;
-import com.tcc.uffmaterias.domain.model.SecaoMaterias;
-import com.tcc.uffmaterias.domain.repository.MateriasRepository;
-import com.tcc.uffmaterias.domain.repository.SecaoMateriaRepository;
+import com.tcc.uffmaterias.domain.model.jpa.Materias;
+import com.tcc.uffmaterias.domain.model.jpa.SecaoMaterias;
+import com.tcc.uffmaterias.domain.repository.jpa.SecaoMateriaRepository;
 import com.tcc.uffmaterias.dto.request.SecaoMateriaRequestDto;
 import com.tcc.uffmaterias.dto.response.SecaoMateriaResponseDto;
 import com.tcc.uffmaterias.error.erros.NotFoundException;

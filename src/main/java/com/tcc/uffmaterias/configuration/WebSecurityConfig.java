@@ -26,10 +26,12 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
-        http.cors(AbstractHttpConfigurer::disable);
+        http.cors(cors->cors.configure(http));
         http.csrf(AbstractHttpConfigurer::disable);
         http.authorizeHttpRequests(request -> {
             request.requestMatchers("/login").permitAll();
+            request.requestMatchers(HttpMethod.POST,"/usuarios").permitAll();
+            request.requestMatchers(HttpMethod.POST,"/usuarios/verify-code").permitAll();
             request.anyRequest().authenticated();
         });
         http.formLogin(AbstractHttpConfigurer::disable);

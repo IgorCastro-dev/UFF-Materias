@@ -1,5 +1,5 @@
 package com.tcc.uffmaterias.Mapper;
-import com.tcc.uffmaterias.domain.model.SecaoMaterias;
+import com.tcc.uffmaterias.domain.model.jpa.SecaoMaterias;
 import com.tcc.uffmaterias.dto.response.SecaoMateriaResponseDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;

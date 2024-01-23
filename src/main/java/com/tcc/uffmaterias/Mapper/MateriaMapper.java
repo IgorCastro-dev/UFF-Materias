@@ -1,6 +1,6 @@
 package com.tcc.uffmaterias.Mapper;
 
-import com.tcc.uffmaterias.domain.model.Materias;
+import com.tcc.uffmaterias.domain.model.jpa.Materias;
 import com.tcc.uffmaterias.dto.response.MateriaResponseDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
