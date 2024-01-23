@@ -31,10 +31,7 @@ public class RegisterService {
         if(userCredentialsOptional.isPresent()){
             throw new RuntimeException("Usuário já existe");
         }
-        UsuarioTipo role = usuarioTipoRepository.findById(registerDTO.getRoleId()).orElseThrow(
-                ()->new RuntimeException("Role não existe")
-        );
-        userRegisterService.saveUserRegisterToRedis(registerDTO,role);
+        userRegisterService.saveUserRegisterToRedis(registerDTO);
         registerCodeService.sendRegisterCode(registerDTO.getEmail());
     }
 

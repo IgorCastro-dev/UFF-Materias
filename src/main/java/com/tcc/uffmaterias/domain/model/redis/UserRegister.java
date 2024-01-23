@@ -27,6 +27,4 @@ public class UserRegister {
     private String celular;
 
     private String password;
-
-    private UsuarioTipo usuarioTipo;
 }

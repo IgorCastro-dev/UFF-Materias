@@ -17,6 +17,5 @@ public class RegisterDto{
         String celular;
         @NotBlank
         String password;
-        @NotNull
-        Long roleId;
+
 }
