@@ -5,6 +5,7 @@ import com.tcc.uffmaterias.domain.repository.redis.UserRegisterCodeRepository;
 import com.tcc.uffmaterias.dto.request.Menssagem;
 import com.tcc.uffmaterias.error.erros.EmailException;
 import com.tcc.uffmaterias.error.erros.NotFoundException;
+import com.tcc.uffmaterias.evento.publisher.CadastroPublisher;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,7 +25,7 @@ public class RegisterCodeService {
     private UserRegisterCodeRepository userRegisterCodeRepository;
 
     @Autowired
-    private SmtpEmailService smtpEmailService;
+    private CadastroPublisher cadastroPublisher;
 
     @Transactional
     public void sendRegisterCode(String email){
@@ -39,8 +40,7 @@ public class RegisterCodeService {
         userRegisterCode.setCode(code);
         userRegisterCode.setDateTime(LocalDateTime.now());
         userRegisterCodeRepository.save(userRegisterCode);
-        aoEnviarCodigo(userRegisterCode.getCode(),userRegisterCode.getEmail());
-        System.out.println(code);
+        cadastroPublisher.publicarEvento(email,code);
     }
 
     public Boolean isValidCode(String recoveryCode, String email) {
@@ -51,19 +51,5 @@ public class RegisterCodeService {
         LocalDateTime now = LocalDateTime.now();
 
         return recoveryCode.equals(userRegisterCode.getCode()) && now.isBefore(timeout);
-    }
-
-    private void aoEnviarCodigo(String code,String email){
-        try {
-            Menssagem menssagem = Menssagem.builder()
-                    .assunto("Código de verificação")
-                    .destinatario(email)
-                    .corpo("envio-user-register-code.html")
-                    .variaveis(Map.of("code",code,"email",email))
-                    .build();
-            smtpEmailService.enviar(menssagem);
-        }catch (Exception e){
-            throw new EmailException(e.getMessage(),e);
-        }
     }
 }
