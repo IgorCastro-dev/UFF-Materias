@@ -68,6 +68,7 @@ public class UsuarioController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
+    @Operation(summary = "Verifica o código de validação e salva no Mysql")
     @PostMapping("/verify-code")
     public ResponseEntity<Void> verifyCode(
             @Email @PathParam("email") String email,
