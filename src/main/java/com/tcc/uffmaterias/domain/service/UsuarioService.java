@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,6 +23,9 @@ public class UsuarioService implements UserDetailsService {
 
     @Autowired
     private UsuarioTipoRepository usuarioTipoRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -47,7 +51,12 @@ public class UsuarioService implements UserDetailsService {
         return getUsuarios(id);
     }
 
-
+    @Transactional
+    public void updatePassword(String password, String email) {
+        var usuario = (Usuarios)loadUserByUsername(email);
+        usuario.setSenha(passwordEncoder.encode(password));
+        usuarioRepository.save(usuario);
+    }
 
     @Transactional
     public Usuarios atualizarUsuario(Long id, UsuarioRequestDto usuarioRequestDto) {

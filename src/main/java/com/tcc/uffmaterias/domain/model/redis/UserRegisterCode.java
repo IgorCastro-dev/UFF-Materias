@@ -28,6 +28,4 @@ public class UserRegisterCode {
 
     private LocalDateTime dateTime = LocalDateTime.now();
 
-    @TimeToLive(unit = TimeUnit.MINUTES)
-    private long expiration = 30;
 }

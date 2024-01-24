@@ -1,17 +1,19 @@
 package com.tcc.uffmaterias.domain.controller;
 
 import com.tcc.uffmaterias.domain.model.jpa.Usuarios;
-import com.tcc.uffmaterias.domain.model.redis.UserRegisterCode;
 import com.tcc.uffmaterias.domain.service.RegisterService;
 import com.tcc.uffmaterias.domain.service.UsuarioService;
 import com.tcc.uffmaterias.dto.request.CodeDto;
+import com.tcc.uffmaterias.dto.request.EmailDto;
 import com.tcc.uffmaterias.dto.request.RegisterDto;
+import com.tcc.uffmaterias.dto.request.UpdatePasswordDto;
 import com.tcc.uffmaterias.dto.request.UsuarioRequestDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.websocket.server.PathParam;
+import org.springframework.security.core.token.Token;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,6 +39,7 @@ public class UsuarioController {
     @Autowired
     private RegisterService registerService;
 
+
     @Operation(summary = "Lista os usuarios")
     @GetMapping
     public ResponseEntity<List<Usuarios>> listarUsuarios(){
@@ -61,19 +64,45 @@ public class UsuarioController {
     public ResponseEntity<Usuarios> atualizarUsuario(@PathVariable("usuario_id") Long id,@Valid @RequestBody UsuarioRequestDto usuarioRequestDto){
         return ResponseEntity.ok(usuarioService.atualizarUsuario(id,usuarioRequestDto));
     }
-    @Operation(summary = "Salva usuário no redis")
+    @Operation(summary = "Salva usuário no redis e envia o código")
     @PostMapping
     public ResponseEntity<Void> salvaUsuarioNoRedis(@Valid @RequestBody RegisterDto registerDto){
         registerService.register(registerDto);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @Operation(summary = "Verifica o código de validação e salva no Mysql")
-    @PostMapping("/verify-code")
-    public ResponseEntity<Void> verifyCode(
+    @Operation(summary = "Verifica o código de registro de usuário e salva no Mysql")
+    @PostMapping("/verify-registercode")
+    public ResponseEntity<Void> verifyRegisterCode(
             @Email @PathParam("email") String email,
             @RequestBody CodeDto codeDto){
-        registerService.confirmCode(codeDto.getCode(),email);
+        registerService.confirmRegisterCode(codeDto.getCode(),email);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @Operation(summary = "Verifica o código de registro de usuário e salva no Mysql")
+    @PostMapping("/verify-recoverycode")
+    public ResponseEntity<Boolean> verifyRecoveryCode(
+            @Email @PathParam("email") String email,
+            @RequestBody CodeDto codeDto){
+        return ResponseEntity.ok(registerService.confirmRecoveryCode(codeDto.getCode(),email));
+    }
+
+
+    @Operation(summary = "Verifica o email e envia o código de verificação")
+    @PostMapping("/verify-email")
+    public ResponseEntity<Void> verifyEmail(
+            @RequestBody EmailDto emailDto){
+        registerService.confirmEmail(emailDto);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @Operation(summary = "Faz a atualização da senha passando o email, código e a senha no corpo")
+    @PutMapping("/update-password")
+    public ResponseEntity<Void> verifyRecoveryCode(
+            @RequestBody UpdatePasswordDto updatePasswordDto){
+        registerService.confirmRecoveryCode(updatePasswordDto.getCode(),updatePasswordDto.getEmail());
+        usuarioService.updatePassword(updatePasswordDto.getPassword(),updatePasswordDto.getEmail());
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

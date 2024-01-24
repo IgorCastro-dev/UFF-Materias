@@ -31,7 +31,10 @@ public class WebSecurityConfig {
         http.authorizeHttpRequests(request -> {
             request.requestMatchers("/login").permitAll();
             request.requestMatchers(HttpMethod.POST,"/usuarios").permitAll();
-            request.requestMatchers(HttpMethod.POST,"/usuarios/verify-code").permitAll();
+            request.requestMatchers(HttpMethod.POST,"/usuarios/verify-registercode").permitAll();
+            request.requestMatchers(HttpMethod.POST,"/usuarios/verify-recoverycode").permitAll();
+            request.requestMatchers(HttpMethod.PUT,"/usuarios/update-password").permitAll();
+            request.requestMatchers(HttpMethod.POST,"/usuarios/verify-email").permitAll();
             request.anyRequest().authenticated();
         });
         http.formLogin(AbstractHttpConfigurer::disable);
