@@ -9,7 +9,7 @@ Uma Api Rest em java para gerenciar arquivos do curso de sistemas de informaçã
 
 ## Stack utilizada
 
-**Back-end:** Java, Spring-Boot, My-SQL, Redis, AWS, Swagger, Docker, SMTP, flyway, Segurança (JWT Oauth2),Domain Events, DDD
+**Back-end:** Java, Spring-Boot,JPA, My-SQL, Redis, AWS, Swagger, Docker, SMTP, flyway, Segurança (JWT Oauth2),Domain Events, DDD
 
 
 ## Funcionalidades
