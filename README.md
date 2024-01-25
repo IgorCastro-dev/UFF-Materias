@@ -64,3 +64,7 @@ Compile e Execute sua API Java:
 ![Swagger](https://github.com/IgorCastro-dev/UFF-Materias/assets/77001554/ca8cc27a-4c50-4c56-b945-55ad71e08cf4)
 
 ![Swagger](https://github.com/IgorCastro-dev/UFF-Materias/assets/77001554/a0ff905d-43b8-46da-9175-0145db47d29f)
+
+## Documentação
+
+[Documentação](http://localhost:8080/v1/api/uff-materias/swagger-ui/index.html#/)
