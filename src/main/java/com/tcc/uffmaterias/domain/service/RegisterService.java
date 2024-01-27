@@ -56,7 +56,7 @@ public class RegisterService {
 
     public void confirmEmail(EmailDto emailDto) {
         usuarioRepository.findByEmail(emailDto.getEmail())
-                .orElseThrow(()->new RuntimeException("Usuário não existe"));
+                .orElseThrow(()->new NotFoundException("Usuário não existe"));
         codeService.sendRecoveryCode(emailDto.getEmail());
     }
 

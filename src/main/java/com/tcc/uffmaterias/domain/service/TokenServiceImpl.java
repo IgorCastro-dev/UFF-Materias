@@ -22,9 +22,9 @@ public class TokenServiceImpl implements TokenService {
                 .claim("roles",userCredentials.getUsuarioTipo().getNome())
                 .setIssuer("Token do app")
                 .setIssuedAt(today)
-                .setExpiration(new Date(today.getTime()+300000))
+                .setExpiration(new Date(today.getTime()+3000000))
                 .compact();
-        return new TokenDto(jwt,today.getTime(),userCredentials.getUsername());
+        return new TokenDto(jwt,today.getTime(),userCredentials.getNome());
 
     }
 

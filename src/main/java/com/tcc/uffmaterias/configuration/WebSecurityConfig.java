@@ -35,6 +35,8 @@ public class WebSecurityConfig {
             request.requestMatchers(HttpMethod.POST,"/usuarios/verify-recoverycode").permitAll();
             request.requestMatchers(HttpMethod.PUT,"/usuarios/update-password").permitAll();
             request.requestMatchers(HttpMethod.POST,"/usuarios/verify-email").permitAll();
+            request.requestMatchers("/usuarios/**").hasRole("ADMIN");
+            request.requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll();
             request.anyRequest().authenticated();
         });
         http.formLogin(AbstractHttpConfigurer::disable);
