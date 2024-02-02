@@ -6,6 +6,8 @@ Uma Api Rest em java para gerenciar arquivos do curso de sistemas de informaçã
 
 ![Logo](https://github.com/IgorCastro-dev/UFF-Materias/assets/77001554/b9569d56-a018-4a8e-9514-8a051852f87d)
 
+## Frontend da API
+https://github.com/IgorCastro-dev/UFF-Mat-rias
 
 ## Stack utilizada
 
