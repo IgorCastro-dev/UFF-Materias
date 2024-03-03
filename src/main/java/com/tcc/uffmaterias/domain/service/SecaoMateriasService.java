@@ -41,7 +41,7 @@ public class SecaoMateriasService {
     @Transactional
     public SecaoMateriaResponseDto atualizaMateriaporId(Long id, SecaoMateriaRequestDto secaoMateriaRequestDto){
         SecaoMaterias secaoMaterias = getSecaoMateria(id);
-        modelMapper.map(secaoMateriaRequestDto,secaoMaterias);
+        secaoMaterias.setSecaoMateriasNome(secaoMateriaRequestDto.getSecaoMateriasNome());
         secaoMateriaRepository.save(secaoMaterias);
         return secaoMateriaMapper.entityToDto(secaoMaterias);
     }
