@@ -13,5 +13,6 @@ services:
   redis:
     image: redis:4
     container_name: redis-uff-materias
+    password: senha123
     ports:
       - "6379:6379"
