@@ -69,4 +69,4 @@ Compile e Execute sua API Java:
 
 ## Documentação
 
-[Documentação](http://localhost:8080/v1/api/uff-materias/swagger-ui/index.html#/)
+[Documentação](https://uff-materias-1.onrender.com/v1/api/uff-materias/swagger-ui/index.html)
