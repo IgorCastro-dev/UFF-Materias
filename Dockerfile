@@ -2,7 +2,7 @@ FROM openjdk:17-jdk-slim
 
 WORKDIR /app
 
-COPY /target/*.jar /app/app.jar
+COPY --from:build /target/*.jar /app/app.jar
 
 EXPOSE 8080
 
