@@ -1,9 +1,13 @@
-FROM openjdk:17-jdk-slim
-
+# Etapa de build
+FROM maven:3.8.1-openjdk-17 AS build
 WORKDIR /app
+COPY pom.xml .
+COPY src ./src
+RUN mvn clean package
 
-COPY target/uff-materias-0.0.1-SNAPSHOT.jar /app/app.jar
-
+# Etapa final
+FROM openjdk:17-jdk-slim
+WORKDIR /app
+COPY --from=build /app/target/*.jar /app/app.jar
 EXPOSE 8080
-
-CMD ["java", "-jar", "api.jar"]
+CMD ["java", "-jar", "/app/app.jar"]
